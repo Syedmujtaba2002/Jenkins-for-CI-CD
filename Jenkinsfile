@@ -2,52 +2,45 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "my-java-app"
+        IMAGE_NAME = "springboot-java-app"
     }
 
     stages {
         stage('Clone') {
             steps {
-                echo 'Cloning repository...'
+                echo '🔁 Cloning repository...'
                 git branch: 'main', url: 'https://github.com/Syedmujtaba2002/Jenkins-for-CI-CD.git'
             }
         }
 
-        stage('Build') {
+        stage('Build & Package') {
             steps {
-                echo 'Compiling Java code...'
-                sh 'javac -d out src/*.java'
-            }
-        }
-
-        stage('Package') {
-            steps {
-                echo 'Packaging application...'
-                sh 'jar -cvf app.jar -C out .'
+                echo '⚙️ Building Spring Boot App using Maven...'
+                sh 'mvn clean package'
             }
         }
 
         stage('Docker Build') {
             steps {
-                echo 'Building Docker image...'
+                echo '🐳 Building Docker image...'
                 sh "docker build -t $IMAGE_NAME ."
             }
         }
 
         stage('Docker Run') {
             steps {
-                echo 'Running Docker container...'
-                sh "docker run -d -p 8080:8080 $IMAGE_NAME"
+                echo '🚀 Running Docker container on port 5000...'
+                sh "docker run -d -p 5000:5000 $IMAGE_NAME"
             }
         }
     }
 
     post {
         success {
-            echo '✅ CI/CD pipeline completed!'
+            echo '✅ Pipeline completed successfully!'
         }
         failure {
-            echo '❌ Pipeline failed.'
+            echo '❌ Pipeline failed. Check the logs.'
         }
     }
 }
