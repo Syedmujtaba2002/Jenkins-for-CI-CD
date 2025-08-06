@@ -7,10 +7,10 @@ pipeline {
 
     stages {
         stage('Clone') {
-            steps {
-                git 'https://github.com/YOUR_USERNAME/jenkins-ci-cd-java.git'
-            }
-        }
+    steps {
+        git 'https://github.com/Syedmujtaba2002/Jenkins-for-CI-CD.git'
+    }
+}
 
         stage('Build with Maven') {
             steps {
