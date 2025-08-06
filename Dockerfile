@@ -1,9 +1,14 @@
-FROM eclipse-temurin:17-jdk-alpine
+# Use official OpenJDK base image
+FROM openjdk:17
 
+# Set working directory inside the container
 WORKDIR /app
 
-COPY target/demo-1.0.0.jar app.jar
+# Copy the packaged JAR file into the container
+COPY target/*.jar app.jar
 
-EXPOSE 8080
+# Expose port 5000 (same as configured in application.properties)
+EXPOSE 5000
 
+# Run the Spring Boot application
 ENTRYPOINT ["java", "-jar", "app.jar"]
