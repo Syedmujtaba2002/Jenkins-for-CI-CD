@@ -1,39 +1,53 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "my-java-app"
+    }
+
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/Syedmujtaba2002/Jenkins-for-CI-CD.git'
+                echo 'Cloning repository...'
+                git branch: 'main', url: 'https://github.com/Syedmujtaba2002/Jenkins-for-CI-CD.git'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building the application...'
-                sh 'npm install'
+                echo 'Compiling Java code...'
+                sh 'javac -d out src/*.java'
             }
         }
 
-        stage('Test') {
+        stage('Package') {
             steps {
-                echo 'Running tests...'
-                sh 'npm test || echo "No test defined"' // Avoid failure if no test
+                echo 'Packaging application...'
+                sh 'jar -cvf app.jar -C out .'
             }
         }
 
         stage('Docker Build') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t my-node-app .'
+                sh "docker build -t $IMAGE_NAME ."
             }
         }
 
         stage('Docker Run') {
             steps {
                 echo 'Running Docker container...'
-                sh 'docker run -d -p 3000:3000 my-node-app'
+                sh "docker run -d -p 8080:8080 $IMAGE_NAME"
             }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ CI/CD pipeline completed!'
+        }
+        failure {
+            echo '❌ Pipeline failed.'
         }
     }
 }
