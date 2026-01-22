@@ -14,6 +14,6 @@ public class DemoApplication {
 
     @GetMapping("/")
     public String home() {
-        return "Hello from Spring Boot Java App with CI/CD 🚀";
+        return "Hello from Spring Boot Java App with CI/CD ";
     }
 }
