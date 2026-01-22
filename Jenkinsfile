@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "springboot-java-app"
+        IMAGE_NAME = "myapp"
     }
 
     stages {
@@ -30,7 +30,7 @@ pipeline {
         stage('Docker Run') {
             steps {
                 echo '🚀 Running Docker container on port 5000...'
-                sh "docker run -d -p 5000:5000 $IMAGE_NAME"
+                sh "docker run -d -p 6000:6000 $IMAGE_NAME"
             }
         }
     }
