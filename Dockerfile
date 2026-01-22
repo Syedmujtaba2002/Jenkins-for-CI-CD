@@ -8,8 +8,7 @@ WORKDIR /app
 COPY target/*.jar app.jar
 
 # Expose port 5000 (same as configured in application.properties)
-EXPOSE 5000
+EXPOSE 6000
 
-# Run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
+# Run Spring Boot on port 6000 and bind to all interfaces
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=6000", "--server.address=0.0.0.0"]
